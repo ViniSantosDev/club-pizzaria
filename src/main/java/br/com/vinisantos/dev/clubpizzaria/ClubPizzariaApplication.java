@@ -1,4 +1,4 @@
-package com.ViniSantosDev.clubpizzaria;
+package br.com.vinisantos.dev.clubpizzaria;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
