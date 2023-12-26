@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaDTO;
+import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaXmlWrapper;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
 import br.com.vinisantos.dev.clubpizzaria.repository.impl.CozinhaRepositoryImpl;
 
 @RestController
-@RequestMapping(value = "/cozinhas",produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping("/cozinhas")
 public class CozinhaController {
 	
 	@Autowired
@@ -25,6 +26,11 @@ public class CozinhaController {
 	@GetMapping()
 	public List<Cozinha> listar() {
 		return repository.listar();
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+	public CozinhaXmlWrapper listarWithXml() {
+		return new CozinhaXmlWrapper(repository.listar());
 	}
 	
 	@GetMapping("/{id}")
