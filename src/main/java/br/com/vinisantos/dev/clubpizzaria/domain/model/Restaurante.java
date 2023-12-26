@@ -31,7 +31,7 @@ public class Restaurante {
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 	
-	@Column(name = "ativo", nullable = false)
+	//@Column(name = "ativo", nullable = false)
 	private boolean ativo;
 	
 	private boolean aberto;
@@ -45,6 +45,6 @@ public class Restaurante {
 	private Cozinha cozinha;
 	
 	@OneToMany
-	@JoinColumn(name = "pagamento", nullable = false)
+	//@JoinColumn(name = "pagamento", nullable = false)
 	private List<FormaPagamento> formaPagamento;
 }

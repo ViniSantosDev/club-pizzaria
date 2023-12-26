@@ -1,4 +1,5 @@
 INSERT INTO cozinha(id, nome) VALUES (1, 'Unidade 01')
 INSERT INTO cozinha(id, nome) VALUES (2, 'Unidade 02')
 INSERT INTO cozinha(id, nome) VALUES (3, 'Unidade 03')
-
+INSERT INTO estado(id, nome) VALUES (1, 'SP')
+INSERT INTO restaurante(id, nome, aberto, ativo, cozinha_id) VALUES (1, 'Outback', true, true, 2)
