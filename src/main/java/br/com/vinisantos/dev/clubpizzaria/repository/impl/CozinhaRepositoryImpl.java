@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaDTO;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
 import br.com.vinisantos.dev.clubpizzaria.repository.CozinhaRepository;
 
@@ -37,6 +38,11 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 	public void remover(Cozinha cozinha) {
 		cozinha = buscar(cozinha.getId());
 		manager.remove(cozinha);
+	}
+
+	public Cozinha atualizar(CozinhaDTO dto) {
+		
+		return null;
 	}
 
 }

@@ -6,8 +6,15 @@ import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
 
 public interface CozinhaRepository {
 
-	List<Cozinha> listar();
-	Cozinha buscar(Long id);
-	Cozinha salvar(Cozinha cozinha);
-	void remover(Cozinha cozinha);
+	//CRUD:
+	
+	//CREATE = CRIAR
+	//READ = LER
+	//UPDATE = ATUALIZAR
+	//DELETE = DELETAR
+	
+	List<Cozinha> listar(); //READ TODOS
+	Cozinha buscar(Long id); //READ por um filtro id
+	Cozinha salvar(Cozinha cozinha); //CREATE
+	void remover(Cozinha cozinha); //DELETE
 }
