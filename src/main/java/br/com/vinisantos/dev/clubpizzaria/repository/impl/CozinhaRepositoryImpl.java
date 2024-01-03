@@ -40,9 +40,4 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 		manager.remove(cozinha);
 	}
 
-	public Cozinha atualizar(CozinhaDTO dto) {
-		
-		return null;
-	}
-
 }
