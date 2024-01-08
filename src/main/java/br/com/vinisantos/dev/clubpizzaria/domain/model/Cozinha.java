@@ -18,14 +18,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table
-@JsonRootName("cozinha")
+//@JsonRootName("cozinha")
 public class Cozinha implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	

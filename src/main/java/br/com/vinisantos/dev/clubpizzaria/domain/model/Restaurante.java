@@ -1,8 +1,7 @@
 package br.com.vinisantos.dev.clubpizzaria.domain.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,17 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table
 @Entity
-public class Restaurante {
-	@EqualsAndHashCode.Include
+public class Restaurante implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
 	@Id
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
@@ -31,20 +35,15 @@ public class Restaurante {
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 	
-	//@Column(name = "ativo", nullable = false)
-	private boolean ativo;
-	
-	private boolean aberto;
-	
-	private LocalDate dataCadastro;
-	
-	private LocalDate dataAtualizacao;
-	
+//	private boolean ativo;
+//	
+//	private boolean aberto;
+//	
+//	private LocalDate dataCadastro;
+//	
+//	private LocalDate dataAtualizacao;
+//	
 	@ManyToOne
-	@JoinColumn(name = "cozinha_id", nullable = false)
+	@JoinColumn(name = "cozinha_id")
 	private Cozinha cozinha;
-	
-	@OneToMany
-	//@JoinColumn(name = "pagamento", nullable = false)
-	private List<FormaPagamento> formaPagamento;
 }

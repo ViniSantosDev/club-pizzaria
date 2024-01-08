@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaDTO;
 import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaXmlWrapper;
+import br.com.vinisantos.dev.clubpizzaria.domain.exception.ExceptionObjectUsed;
+import br.com.vinisantos.dev.clubpizzaria.domain.exception.ThisEntityNotFoundException;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
 import br.com.vinisantos.dev.clubpizzaria.repository.impl.CozinhaRepositoryImpl;
+import br.com.vinisantos.dev.clubpizzaria.service.CozinhaService;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -30,6 +33,10 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepositoryImpl repository;
+	
+	@Autowired
+	private CozinhaService service;
+	
 
 	@GetMapping()
 	public List<Cozinha> listar() {
@@ -54,8 +61,7 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha create(@RequestBody Cozinha body) {
-		Cozinha cozinha = repository.salvar(body);
-		return cozinha;
+		return service.create(body);
 	}
 
 	@PutMapping("/{id}")
@@ -65,7 +71,7 @@ public class CozinhaController {
 
 		if (cozinhaExist != null) {
 			BeanUtils.copyProperties(dto, cozinhaExist, "id");
-			repository.salvar(cozinhaExist);
+			service.create(cozinhaExist);
 			return ResponseEntity.ok(cozinhaExist);
 		}
 		return ResponseEntity.notFound().build();
@@ -75,10 +81,16 @@ public class CozinhaController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Cozinha> deleteCozinhaById(@PathVariable Long id) {
-		Cozinha cozinha = repository.buscar(id);
-		repository.remover(cozinha);
-		
-		return ResponseEntity.noContent().build();
+		try {
+			service.excluir(id);
+			return ResponseEntity.noContent().build();
+			
+		} catch(ThisEntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+		catch(ExceptionObjectUsed e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 	}
 
 }
