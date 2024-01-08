@@ -1,5 +1,7 @@
 package br.com.vinisantos.dev.clubpizzaria.domain.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
-public class Estado {
+public class Estado implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
