@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -53,4 +54,16 @@ public class RestauranteController {
 		Restaurante restaurante = mapper.convertEntityForDTO(body);
 		return service.salvar(restaurante);
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Restaurante> update(@PathVariable Long id, @RequestBody RestauranteDTO body) {
+		
+	Restaurante restaurantExist = service.buscar(id);
+	if(restaurantExist != null) {
+		Restaurante restauranteEdit = mapper.convertEntityForDTO(body);
+		return ResponseEntity.ok(restauranteEdit);
+	}
+	return ResponseEntity.badRequest().build();
+
+}
 }
