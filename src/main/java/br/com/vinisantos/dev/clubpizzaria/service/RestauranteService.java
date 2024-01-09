@@ -25,7 +25,7 @@ public class RestauranteService {
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+		Cozinha cozinha = cozinhaRepository.getReferenceById(cozinhaId);
 
 		if (cozinha == null) {
 			throw new ThisEntityNotFoundException(

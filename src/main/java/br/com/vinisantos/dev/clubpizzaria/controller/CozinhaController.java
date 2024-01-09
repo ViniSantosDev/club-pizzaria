@@ -25,7 +25,7 @@ import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaXmlWrapper;
 import br.com.vinisantos.dev.clubpizzaria.domain.exception.ExceptionObjectUsed;
 import br.com.vinisantos.dev.clubpizzaria.domain.exception.ThisEntityNotFoundException;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
-import br.com.vinisantos.dev.clubpizzaria.repository.impl.CozinhaRepositoryImpl;
+import br.com.vinisantos.dev.clubpizzaria.repository.CozinhaRepository;
 import br.com.vinisantos.dev.clubpizzaria.service.CozinhaService;
 
 @RestController
@@ -33,7 +33,7 @@ import br.com.vinisantos.dev.clubpizzaria.service.CozinhaService;
 public class CozinhaController {
 
 	@Autowired
-	private CozinhaRepositoryImpl repository;
+	private CozinhaRepository repository;
 	
 	@Autowired
 	private CozinhaService service;
@@ -41,22 +41,22 @@ public class CozinhaController {
 
 	@GetMapping
 	public List<Cozinha> listar() {
-		return repository.listar();
+		return repository.findAll();
 	}
 	
-	@GetMapping("/")
-	public List<Cozinha> byName(@RequestParam String nome) {
-		return repository.consultarPorNome(nome);
-	}
+//	@GetMapping("/")
+//	public List<Cozinha> byName(@RequestParam String nome) {
+//		return repository.consultarPorNome(nome);
+//	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public CozinhaXmlWrapper listarWithXml() {
-		return new CozinhaXmlWrapper(repository.listar());
+		return new CozinhaXmlWrapper(repository.findAll());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cozinha> byId(@PathVariable Long id) {
-		Cozinha cozinha = repository.buscar(id);
+		Cozinha cozinha = service.findById(id);
 
 		if (cozinha != null) {
 			return ResponseEntity.ok(cozinha);
@@ -73,7 +73,7 @@ public class CozinhaController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody CozinhaDTO dto) {
 
-		Cozinha cozinhaExist = repository.buscar(id);
+		Cozinha cozinhaExist = repository.getReferenceById(id);
 
 		if (cozinhaExist != null) {
 			BeanUtils.copyProperties(dto, cozinhaExist, "id");
