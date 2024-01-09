@@ -22,6 +22,10 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 	public List<Cozinha> listar() {
 		return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
 	}
+	@Override
+	public List<Cozinha> consultarPorNome(String nome) {
+		return manager.createQuery("from Cozinha where nome =:nome", Cozinha.class).setParameter("nome", nome).getResultList();
+	}
 
 	@Override
 	public Cozinha buscar(Long id) {
@@ -45,4 +49,5 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 		manager.remove(cozinha);
 
 	}
+
 }

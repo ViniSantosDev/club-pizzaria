@@ -9,13 +9,10 @@ import br.com.vinisantos.dev.clubpizzaria.domain.model.Restaurante;
 public class AuxClassConvertEntityForDTO {
 
 	public Restaurante convertEntityForDTO(RestauranteDTO body) {
-
 		Restaurante entity = new Restaurante();
 		entity.setCozinha(body.getCozinha());
 		entity.setNome(body.getNome());
 		entity.setTaxaFrete(body.getTaxaFrete());
-		
 		return entity;
 	}
-
 }
