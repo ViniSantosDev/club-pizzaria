@@ -1,11 +1,14 @@
 package br.com.vinisantos.dev.clubpizzaria.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +43,15 @@ public class CozinhaController {
 	
 
 	@GetMapping
-	public List<Cozinha> listar() {
-		return repository.findAll();
+	public ResponseEntity<Page<CozinhaDTO>> listar(
+			@RequestParam(value = "page", defaultValue = "0") Integer page, 
+			@RequestParam(value = "linesPerPage", defaultValue = "4") Integer linesPerPage,  
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy) {
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<CozinhaDTO> cozinhas = service.findAllPaged(pageRequest);
+		return ResponseEntity.ok().body(cozinhas);
 	}
 	
 //	@GetMapping("/")
@@ -73,12 +83,12 @@ public class CozinhaController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody CozinhaDTO dto) {
 
-		Cozinha cozinhaExist = repository.getReferenceById(id);
+		Optional<Cozinha> cozinhaExist = repository.findById(id);
 
-		if (cozinhaExist != null) {
-			BeanUtils.copyProperties(dto, cozinhaExist, "id");
-			service.create(cozinhaExist);
-			return ResponseEntity.ok(cozinhaExist);
+		if (cozinhaExist.isPresent()) {
+			BeanUtils.copyProperties(dto, cozinhaExist.get(), "id");
+			Cozinha cozinhaSalva = service.create(cozinhaExist.get());
+			return ResponseEntity.ok(cozinhaSalva);
 		}
 		return ResponseEntity.notFound().build();
 

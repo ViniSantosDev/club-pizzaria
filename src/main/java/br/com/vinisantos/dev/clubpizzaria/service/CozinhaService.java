@@ -5,8 +5,11 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import br.com.vinisantos.dev.clubpizzaria.domain.dto.CozinhaDTO;
 import br.com.vinisantos.dev.clubpizzaria.domain.exception.ExceptionObjectUsed;
 import br.com.vinisantos.dev.clubpizzaria.domain.exception.ThisEntityNotFoundException;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
@@ -49,6 +52,11 @@ public class CozinhaService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	public Page<CozinhaDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Cozinha> list = repository.findAll(pageRequest);
+		return list.map(x -> new CozinhaDTO(x));
 	}
 
 }
