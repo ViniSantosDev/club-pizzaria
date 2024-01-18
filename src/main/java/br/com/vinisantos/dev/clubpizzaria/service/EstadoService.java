@@ -2,6 +2,7 @@ package br.com.vinisantos.dev.clubpizzaria.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import br.com.vinisantos.dev.clubpizzaria.domain.exception.ExceptionObjectUsed;
 import br.com.vinisantos.dev.clubpizzaria.domain.exception.ThisEntityNotFoundException;
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Estado;
 import br.com.vinisantos.dev.clubpizzaria.repository.EstadoRepository;
-import br.com.vinisantos.dev.clubpizzaria.util.AuxClassConvertEntityForDTO;
 
 @Service
 public class EstadoService {
@@ -19,7 +19,7 @@ public class EstadoService {
 	private EstadoRepository repository;
 
 	@Autowired
-	AuxClassConvertEntityForDTO mapper;
+	ModelMapper mapper;
 
 	public Estado create(Estado body) {
 		return repository.save(body);
