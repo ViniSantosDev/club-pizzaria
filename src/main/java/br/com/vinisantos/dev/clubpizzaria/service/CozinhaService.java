@@ -2,6 +2,9 @@ package br.com.vinisantos.dev.clubpizzaria.service;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -57,6 +60,17 @@ public class CozinhaService {
 	public Page<CozinhaDTO> findAllPaged(PageRequest pageRequest) {
 		Page<Cozinha> list = repository.findAll(pageRequest);
 		return list.map(x -> new CozinhaDTO(x));
+	}
+
+	public CozinhaDTO update(Long id, CozinhaDTO dto) {
+		try {
+			Cozinha entity = repository.getReferenceById(id);
+			entity.setNome(dto.getNome());
+			entity = repository.save(entity);
+			return new CozinhaDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ThisEntityNotFoundException("ID not found" + id);
+		}
 	}
 
 }

@@ -1,10 +1,8 @@
 package br.com.vinisantos.dev.clubpizzaria.controller;
 
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,11 +52,6 @@ public class CozinhaController {
 		return ResponseEntity.ok().body(cozinhas);
 	}
 	
-//	@GetMapping("/")
-//	public List<Cozinha> byName(@RequestParam String nome) {
-//		return repository.consultarPorNome(nome);
-//	}
-
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public CozinhaXmlWrapper listarWithXml() {
 		return new CozinhaXmlWrapper(repository.findAll());
@@ -80,19 +73,26 @@ public class CozinhaController {
 		return service.create(body);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody CozinhaDTO dto) {
-
-		Optional<Cozinha> cozinhaExist = repository.findById(id);
-
-		if (cozinhaExist.isPresent()) {
-			BeanUtils.copyProperties(dto, cozinhaExist.get(), "id");
-			Cozinha cozinhaSalva = service.create(cozinhaExist.get());
-			return ResponseEntity.ok(cozinhaSalva);
-		}
-		return ResponseEntity.notFound().build();
-
+//	@PutMapping("/{id}")
+//	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody CozinhaDTO dto) {
+//
+//		Optional<Cozinha> cozinhaExist = repository.findById(id);
+//
+//		if (cozinhaExist.isPresent()) {
+//			BeanUtils.copyProperties(dto, cozinhaExist.get(), "id");
+//			Cozinha cozinhaSalva = service.create(cozinhaExist.get());
+//			return ResponseEntity.ok(cozinhaSalva);
+//		}
+//		return ResponseEntity.notFound().build();
+//	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CozinhaDTO> update(@PathVariable Long id, @RequestBody CozinhaDTO dto) {
+		dto = service.update(id, dto);
+		return ResponseEntity.ok(dto);
 	}
+
+	
 
 	@DeleteMapping("/{id}")
 	@Transactional

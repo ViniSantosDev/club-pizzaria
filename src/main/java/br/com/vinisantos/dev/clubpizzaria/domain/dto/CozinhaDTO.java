@@ -1,17 +1,28 @@
 package br.com.vinisantos.dev.clubpizzaria.domain.dto;
 
+import java.io.Serializable;
+
 import br.com.vinisantos.dev.clubpizzaria.domain.model.Cozinha;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-public class CozinhaDTO {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CozinhaDTO implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String nome;
 
-	public CozinhaDTO(Cozinha x) {
-		this.setId(x.getId());
-		this.setNome(x.getNome());
+	public CozinhaDTO(Cozinha entity) {
+		this.setId(entity.getId());
+		this.setNome(entity.getNome());
 	}
-
+ 
 }
